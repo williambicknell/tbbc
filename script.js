@@ -1,21 +1,20 @@
-const PAGE_COUNT = 11;
-const PAGE_PREFIX = "assets/pages/page-";
+const PAGE_COUNT = 20;
+const PAGE_PREFIX = "assets/single-pages/page-";
 const PAGE_EXTENSION = ".jpg";
-const PORTRAIT_PAGE_RATIOS = {
-  1: "1241 / 1754",
-  11: "1241 / 1754"
-};
-const LANDSCAPE_PAGE_RATIO = "2481 / 1754";
-const MOBILE_QUERY = "(max-width: 760px)";
+const PAGE_RATIO = "1241 / 1754";
+const MIN_ZOOM = 1;
+const MAX_ZOOM = 2.5;
+const ZOOM_STEP = 0.25;
 
 const book = document.querySelector("[data-book]");
 const leftSlot = document.querySelector('[data-slot="left"]');
 const rightSlot = document.querySelector('[data-slot="right"]');
 const statusText = document.querySelector("[data-status]");
+const zoomStatus = document.querySelector("[data-zoom-status]");
 const controls = Array.from(document.querySelectorAll("[data-action]"));
 
 let currentStart = 1;
-let mobileLayout = window.matchMedia(MOBILE_QUERY).matches;
+let zoomLevel = 1;
 
 function pageUrl(pageNumber) {
   return `${PAGE_PREFIX}${String(pageNumber).padStart(2, "0")}${PAGE_EXTENSION}`;
@@ -44,10 +43,11 @@ function setSlot(slot, pageNumber) {
   }
 
   slot.classList.remove("is-hidden");
-  slot.style.aspectRatio =
-    mobileLayout && PORTRAIT_PAGE_RATIOS[pageNumber]
-      ? PORTRAIT_PAGE_RATIOS[pageNumber]
-      : LANDSCAPE_PAGE_RATIO;
+  slot.classList.toggle("is-zoomed", zoomLevel > MIN_ZOOM);
+  slot.style.aspectRatio = PAGE_RATIO;
+  slot.style.setProperty("--page-zoom", zoomLevel);
+  slot.scrollTop = 0;
+  slot.scrollLeft = 0;
   image.src = pageUrl(pageNumber);
   image.alt = `Overtourism playbook page ${pageNumber}`;
 }
@@ -62,6 +62,14 @@ function updateControls() {
 
     if (action === "next") {
       control.disabled = currentStart === PAGE_COUNT;
+    }
+
+    if (action === "zoom-out") {
+      control.disabled = zoomLevel <= MIN_ZOOM;
+    }
+
+    if (action === "zoom-in") {
+      control.disabled = zoomLevel >= MAX_ZOOM;
     }
   });
 }
@@ -116,13 +124,23 @@ function preloadNextPages() {
   }
 }
 
-function handleResize() {
-  const nextMobileLayout = window.matchMedia(MOBILE_QUERY).matches;
+function formatZoom() {
+  return `${Math.round(zoomLevel * 100)}%`;
+}
 
-  if (nextMobileLayout !== mobileLayout) {
-    mobileLayout = nextMobileLayout;
-    render();
-  }
+function updateZoom() {
+  [leftSlot, rightSlot].forEach((slot) => {
+    slot.classList.toggle("is-zoomed", zoomLevel > MIN_ZOOM);
+    slot.style.setProperty("--page-zoom", zoomLevel);
+  });
+
+  zoomStatus.textContent = formatZoom();
+  updateControls();
+}
+
+function setZoom(nextZoom) {
+  zoomLevel = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, nextZoom));
+  updateZoom();
 }
 
 controls.forEach((control) => {
@@ -133,6 +151,18 @@ controls.forEach((control) => {
 
     if (control.dataset.action === "previous") {
       goPrevious();
+    }
+
+    if (control.dataset.action === "zoom-out") {
+      setZoom(zoomLevel - ZOOM_STEP);
+    }
+
+    if (control.dataset.action === "zoom-in") {
+      setZoom(zoomLevel + ZOOM_STEP);
+    }
+
+    if (control.dataset.action === "zoom-reset") {
+      setZoom(MIN_ZOOM);
     }
   });
 });
@@ -145,9 +175,19 @@ window.addEventListener("keydown", (event) => {
   if (event.key === "ArrowLeft") {
     goPrevious();
   }
-});
 
-window.addEventListener("resize", handleResize);
+  if (event.key === "+" || event.key === "=") {
+    setZoom(zoomLevel + ZOOM_STEP);
+  }
+
+  if (event.key === "-") {
+    setZoom(zoomLevel - ZOOM_STEP);
+  }
+
+  if (event.key === "0") {
+    setZoom(MIN_ZOOM);
+  }
+});
 
 let touchStartX = null;
 

@@ -9,11 +9,17 @@
       content="Interactive flipbook for the Travel by B Corp overtourism playbook."
     >
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <link rel="preload" href="assets/pages/page-01.jpg" as="image">
+    <link rel="preload" href="assets/single-pages/page-01.jpg" as="image">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
     <main class="flipbook-shell" aria-label="Overtourism Playbook flipbook">
+      <header class="reader-header">
+        <a class="brand-logo" href="https://www.travelbybcorp.com/c/resources/" target="_blank" rel="noreferrer">
+          <img src="assets/tbbc-logo.svg" alt="Travel by B Corp">
+        </a>
+      </header>
+
       <section class="viewer" aria-live="polite">
         <button class="nav-button nav-button--previous" type="button" data-action="previous" aria-label="Previous page">
           <span aria-hidden="true">&lsaquo;</span>
@@ -35,7 +41,14 @@
 
       <section class="toolbar" aria-label="Flipbook controls">
         <button class="toolbar-button" type="button" data-action="previous">Previous</button>
-        <p class="page-status" data-status>Page 1 of 11</p>
+        <p class="page-status" data-status>Page 1 of 20</p>
+        <div class="zoom-controls" aria-label="Zoom controls">
+          <button class="zoom-button" type="button" data-action="zoom-out" aria-label="Zoom out">-</button>
+          <button class="zoom-level" type="button" data-action="zoom-reset" aria-label="Reset zoom">
+            <span data-zoom-status>100%</span>
+          </button>
+          <button class="zoom-button" type="button" data-action="zoom-in" aria-label="Zoom in">+</button>
+        </div>
         <button class="toolbar-button" type="button" data-action="next">Next</button>
         <a class="toolbar-button toolbar-button--download" href="assets/overtourism-playbook.pdf" download>
           Download PDF
