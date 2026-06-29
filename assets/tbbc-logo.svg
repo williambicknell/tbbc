@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 112" role="img" aria-labelledby="title">
-  <title id="title">Travel by B Corp</title>
-  <rect width="420" height="112" rx="16" fill="#145e64"/>
-  <text x="28" y="43" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="700">Travel by</text>
-  <text x="28" y="82" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="40" font-weight="800">B Corp</text>
-  <circle cx="334" cy="55" r="34" fill="none" stroke="#ffffff" stroke-width="8"/>
-  <path fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" d="M318 56l12 12 24-30"/>
-  <path fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" d="M346 82l18 18"/>
-</svg>
