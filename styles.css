@@ -157,11 +157,11 @@ a {
 }
 
 .toolbar {
-  width: min(100%, 760px);
+  width: min(100%, 900px);
   margin: 0 auto;
   padding: 10px;
   display: grid;
-  grid-template-columns: auto minmax(110px, 1fr) auto auto;
+  grid-template-columns: auto minmax(110px, 1fr) auto auto auto;
   align-items: center;
   gap: 8px;
   border: 1px solid var(--line);
@@ -193,6 +193,12 @@ a {
 .toolbar-button--download:focus-visible {
   color: #ffffff;
   background: #0f4f54;
+}
+
+.toolbar-button--resources {
+  color: var(--brand);
+  border-color: rgba(20, 94, 100, 0.28);
+  background: rgba(255, 255, 255, 0.72);
 }
 
 .page-status {
@@ -242,7 +248,8 @@ a {
     grid-row: 1;
   }
 
-  .toolbar-button--download {
+  .toolbar-button--download,
+  .toolbar-button--resources {
     grid-column: 1 / -1;
     text-align: center;
   }
