@@ -12,12 +12,12 @@ After Vercel gives you the production URL, paste this into a Circle custom HTML 
 
 ```html
 <iframe
-  src="https://YOUR_VERCEL_URL/"
+  src="https://tbbc-ten.vercel.app/"
   title="Travel by B Corp Overtourism Playbook"
-  style="width:100%;height:760px;border:0;border-radius:12px;overflow:hidden;"
+  style="display:block;width:100vw;height:calc(100vh - 48px);height:calc(100dvh - 48px);margin-left:calc(50% - 50vw);border:0;border-radius:0;overflow:hidden;"
   loading="lazy"
   allowfullscreen
 ></iframe>
 ```
 
-For shorter sections, reduce the height to around `680px`. The reader shows one PDF page at a time because the inner PDF pages are already designed as landscape spreads.
+The reader scales to the iframe viewport. The `48px` offset keeps the controls visible when Circle renders the block below its page chrome.
