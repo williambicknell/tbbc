@@ -1,10 +1,12 @@
 const PAGE_COUNT = 11;
 const PAGE_PREFIX = "assets/pages/page-";
 const PAGE_EXTENSION = ".jpg";
-const PAGE_RATIOS = {
+const PORTRAIT_PAGE_RATIOS = {
   1: "1241 / 1754",
   11: "1241 / 1754"
 };
+const LANDSCAPE_PAGE_RATIO = "2481 / 1754";
+const MOBILE_QUERY = "(max-width: 760px)";
 
 const book = document.querySelector("[data-book]");
 const leftSlot = document.querySelector('[data-slot="left"]');
@@ -13,6 +15,7 @@ const statusText = document.querySelector("[data-status]");
 const controls = Array.from(document.querySelectorAll("[data-action]"));
 
 let currentStart = 1;
+let mobileLayout = window.matchMedia(MOBILE_QUERY).matches;
 
 function pageUrl(pageNumber) {
   return `${PAGE_PREFIX}${String(pageNumber).padStart(2, "0")}${PAGE_EXTENSION}`;
@@ -41,7 +44,10 @@ function setSlot(slot, pageNumber) {
   }
 
   slot.classList.remove("is-hidden");
-  slot.style.aspectRatio = PAGE_RATIOS[pageNumber] || "2481 / 1754";
+  slot.style.aspectRatio =
+    mobileLayout && PORTRAIT_PAGE_RATIOS[pageNumber]
+      ? PORTRAIT_PAGE_RATIOS[pageNumber]
+      : LANDSCAPE_PAGE_RATIO;
   image.src = pageUrl(pageNumber);
   image.alt = `Overtourism playbook page ${pageNumber}`;
 }
@@ -110,6 +116,15 @@ function preloadNextPages() {
   }
 }
 
+function handleResize() {
+  const nextMobileLayout = window.matchMedia(MOBILE_QUERY).matches;
+
+  if (nextMobileLayout !== mobileLayout) {
+    mobileLayout = nextMobileLayout;
+    render();
+  }
+}
+
 controls.forEach((control) => {
   control.addEventListener("click", () => {
     if (control.dataset.action === "next") {
@@ -131,6 +146,8 @@ window.addEventListener("keydown", (event) => {
     goPrevious();
   }
 });
+
+window.addEventListener("resize", handleResize);
 
 let touchStartX = null;
 
