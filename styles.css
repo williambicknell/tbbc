@@ -1,0 +1,257 @@
+:root {
+  color-scheme: light;
+  --brand: #145e64;
+  --ink: #102326;
+  --muted: #53676a;
+  --surface: #f3f7f6;
+  --panel: #ffffff;
+  --line: rgba(16, 35, 38, 0.14);
+  --shadow: 0 22px 65px rgba(16, 35, 38, 0.18);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--surface);
+  color: var(--ink);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button,
+a {
+  font: inherit;
+}
+
+.flipbook-shell {
+  width: min(100%, 1180px);
+  min-height: 100svh;
+  margin: 0 auto;
+  padding: clamp(16px, 3vw, 34px);
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: 16px;
+}
+
+.viewer {
+  position: relative;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+}
+
+.book {
+  width: min(100%, 980px);
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+  perspective: 1600px;
+  transition: opacity 180ms ease, transform 240ms ease;
+}
+
+.book.is-turning-next {
+  opacity: 0.68;
+  transform: translateX(-8px) rotateY(-2deg);
+}
+
+.book.is-turning-previous {
+  opacity: 0.68;
+  transform: translateX(8px) rotateY(2deg);
+}
+
+.book.is-single {
+  max-width: 980px;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.page-slot {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  transform-style: preserve-3d;
+}
+
+.page-slot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: inherit;
+}
+
+.page-slot--left {
+  transform-origin: right center;
+}
+
+.page-slot--right {
+  transform-origin: left center;
+}
+
+.page-slot.is-hidden {
+  display: none;
+}
+
+.page-slot img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  user-select: none;
+}
+
+.nav-button {
+  position: absolute;
+  z-index: 2;
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--brand);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 12px 30px rgba(16, 35, 38, 0.14);
+  cursor: pointer;
+  transition: opacity 160ms ease, transform 160ms ease, background 160ms ease;
+}
+
+.nav-button:hover,
+.nav-button:focus-visible,
+.toolbar-button:hover,
+.toolbar-button:focus-visible {
+  background: #ffffff;
+  transform: translateY(-1px);
+}
+
+.nav-button:disabled,
+.toolbar-button:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.nav-button span {
+  margin-top: -3px;
+  font-size: 38px;
+  line-height: 1;
+}
+
+.nav-button--previous {
+  left: 0;
+}
+
+.nav-button--next {
+  right: 0;
+}
+
+.toolbar {
+  width: min(100%, 760px);
+  margin: 0 auto;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: auto minmax(110px, 1fr) auto auto;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 12px 35px rgba(16, 35, 38, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.toolbar-button {
+  min-height: 40px;
+  padding: 9px 14px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: var(--brand);
+  background: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 160ms ease, background 160ms ease, opacity 160ms ease;
+}
+
+.toolbar-button--download {
+  color: #ffffff;
+  border-color: var(--brand);
+  background: var(--brand);
+}
+
+.toolbar-button--download:hover,
+.toolbar-button--download:focus-visible {
+  color: #ffffff;
+  background: #0f4f54;
+}
+
+.page-status {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.3;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .flipbook-shell {
+    min-height: 0;
+    padding: 12px;
+    grid-template-rows: auto auto;
+    gap: 10px;
+  }
+
+  .book {
+    width: min(100%, 520px);
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .page-slot--right {
+    display: none;
+  }
+
+  .nav-button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .nav-button--previous {
+    left: 5px;
+  }
+
+  .nav-button--next {
+    right: 5px;
+  }
+
+  .toolbar {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .page-status {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .toolbar-button--download {
+    grid-column: 1 / -1;
+    text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .book,
+  .nav-button,
+  .toolbar-button {
+    transition: none;
+  }
+}

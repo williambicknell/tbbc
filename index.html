@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Overtourism Playbook | Travel by B Corp</title>
+    <meta
+      name="description"
+      content="Interactive flipbook for the Travel by B Corp overtourism playbook."
+    >
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="preload" href="assets/pages/page-01.jpg" as="image">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="flipbook-shell" aria-label="Overtourism Playbook flipbook">
+      <section class="viewer" aria-live="polite">
+        <button class="nav-button nav-button--previous" type="button" data-action="previous" aria-label="Previous page">
+          <span aria-hidden="true">&lsaquo;</span>
+        </button>
+
+        <div class="book" data-book>
+          <figure class="page-slot page-slot--left" data-slot="left">
+            <img alt="" draggable="false">
+          </figure>
+          <figure class="page-slot page-slot--right" data-slot="right">
+            <img alt="" draggable="false">
+          </figure>
+        </div>
+
+        <button class="nav-button nav-button--next" type="button" data-action="next" aria-label="Next page">
+          <span aria-hidden="true">&rsaquo;</span>
+        </button>
+      </section>
+
+      <section class="toolbar" aria-label="Flipbook controls">
+        <button class="toolbar-button" type="button" data-action="previous">Previous</button>
+        <p class="page-status" data-status>Page 1 of 11</p>
+        <button class="toolbar-button" type="button" data-action="next">Next</button>
+        <a class="toolbar-button toolbar-button--download" href="assets/overtourism-playbook.pdf" download>
+          Download PDF
+        </a>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
