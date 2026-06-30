@@ -1,6 +1,7 @@
 const PAGE_COUNT = 20;
 const PAGE_PREFIX = "assets/single-pages/page-";
 const PAGE_EXTENSION = ".jpg";
+const PAGE_VERSION = "20260630-final-design";
 const PAGE_RATIO = "1241 / 1754";
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 2.5;
@@ -17,7 +18,7 @@ let currentStart = 1;
 let zoomLevel = 1;
 
 function pageUrl(pageNumber) {
-  return `${PAGE_PREFIX}${String(pageNumber).padStart(2, "0")}${PAGE_EXTENSION}`;
+  return `${PAGE_PREFIX}${String(pageNumber).padStart(2, "0")}${PAGE_EXTENSION}?v=${PAGE_VERSION}`;
 }
 
 function nextStart() {
